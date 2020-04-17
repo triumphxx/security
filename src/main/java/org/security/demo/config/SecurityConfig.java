@@ -1,5 +1,7 @@
 package org.security.demo.config;
 
+import org.security.demo.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -17,17 +19,36 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  **/
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    @Autowired
+    UserService userService;
+
     @Bean
      PasswordEncoder passwordEncoder(){
          return NoOpPasswordEncoder.getInstance();
      }
 
+    /**
+     * 在内存中配置用户
+     * @param auth
+     * @throws Exception
+     */
+//    @Override
+//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.inMemoryAuthentication()
+//                .withUser("wangyupeng")
+//                .password("123456")
+//                .roles("admin");
+//    }
+
+    /**
+     * 数据库中的用户
+     * @param auth
+     * @throws Exception
+     */
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("wangyupeng")
-                .password("123456")
-                .roles("admin");
+        auth.userDetailsService(userService);
     }
 
     @Override
