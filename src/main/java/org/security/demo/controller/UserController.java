@@ -16,4 +16,14 @@ public class UserController {
     public String hello() {
         return "你好";
     }
+
+    @GetMapping("admin/hello")
+    public String helloAdmin(){
+        return "你好Adnmin";
+    }
+
+    @GetMapping("user/hello")
+    public String helloUser(){
+        return "你好User";
+    }
 }
